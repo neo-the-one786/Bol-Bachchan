@@ -33,21 +33,6 @@
         border-radius: 2rem;
         padding: 3rem 5rem;
 
-        input {
-            background-color: transparent;
-            padding: 1rem;
-            border: 0.1rem solid indigo;
-            border-radius: 0.4rem;
-            color: white;
-            width: 100%;
-            font-size: 1rem;
-
-            &:focus {
-                border: 0.1rem solid rebeccapurple;
-                outline: none;
-            }
-        }
-
         button {
             background-color: purple;
             color: white;
@@ -77,4 +62,3 @@
         }
     }
 }
-

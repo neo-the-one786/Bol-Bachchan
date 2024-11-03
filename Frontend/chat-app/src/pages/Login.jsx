@@ -8,8 +8,39 @@ import "react-toastify/dist/ReactToastify.css";
 import axios from "axios";
 import {loginRoute} from "../utils/APIRoutes.js";
 import {useEffect} from "react";
+import {Button, TextField} from "@mui/material";
 
 const FormContainer = styled.div``;
+
+const CustomTextField = styled(TextField)(({ theme }) => ({
+    backgroundColor: 'transparent',
+    padding: '1rem',
+    border: '0.1rem solid indigo',
+    borderRadius: '0.4rem',
+    color: 'white',
+    width: '100%',
+    fontSize: '1rem',
+    '& .MuiOutlinedInput-root': {
+        '& fieldset': {
+            borderColor: 'indigo',
+        },
+        '&:hover fieldset': {
+            borderColor: 'darkblue',
+        },
+        '&.Mui-focused fieldset': {
+            borderColor: 'rebeccapurple',
+        },
+    },
+    '& .MuiInputBase-input': {
+        color: 'white',
+    },
+    '& .MuiInputLabel-root': {
+        color: 'dimgrey',
+        '&.Mui-focused': {
+            color: 'rebeccapurple',
+        },
+    },
+}));
 
 export default function Login() {
     const {register, handleSubmit, watch, formState: {errors}} = useForm({mode: "onSubmit"});
@@ -63,11 +94,11 @@ export default function Login() {
                         <img src={logo} alt="logo"/>
                         <h1>Bol Bachchan</h1>
                     </div>
-                    <input type="text" placeholder="Username" {...register("usrNam", validOpts.usrNam)}/>
-                    <input type="password" placeholder="Password" {...register("passwd", validOpts.passwd)}/>
-                    <button>
+                    <CustomTextField type="text" label="Username" {...register("usrNam", validOpts.usrNam)}/>
+                    <CustomTextField type="password" label="Password" {...register("passwd", validOpts.passwd)}/>
+                    <Button type="submit">
                         Login
-                    </button>
+                    </Button>
                     <span>
                         Don't have an account?
                         <Link to="/signup">Signup</Link>

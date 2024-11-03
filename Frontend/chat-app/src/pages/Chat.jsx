@@ -29,7 +29,6 @@ export default function Chat() {
                 setIsLoaded(true);
             }
         }
-
         checkUsr().then();
     }, [navigate]);
 

@@ -2,10 +2,10 @@ import styled from "styled-components";
 import "../styles/ChatBox.css";
 import Logout from "./Logout.jsx";
 import ChatInput from "./ChatInput.jsx";
-import {getAllMsgRoute, sendMsgRoute} from "../utils/APIRoutes.js";
+import { getAllMsgRoute, sendMsgRoute } from "../utils/APIRoutes.js";
 import axios from "axios";
-import {useEffect, useRef, useState} from "react";
-import {v4 as uuid} from "uuid";
+import { useEffect, useRef, useState } from "react";
+import { v4 as uuid } from "uuid";
 
 const ChatBoxContainer = styled.div``;
 
@@ -35,54 +35,59 @@ export default function ChatBox(props) {
             to: props.currChat._id,
             msgTxt: msgTxt
         });
-        setMessages([...messages, {fromSelf: true, msg: msgTxt}])
+        setMessages((prev) => [...prev, { fromSelf: true, msgTxt: msgTxt }]);
     };
-    const [arrivalMsg, setArrivalMsg] = useState("");
     useEffect(() => {
         if (props.socket.current) {
             props.socket.current.on("msg-receive", (msgTxt) => {
-                setArrivalMsg({fromSelf: false, msg: msgTxt});
+                console.log("Received message:", msgTxt);
+                setMessages((prev) => [...prev, { fromSelf: false, msgTxt: msgTxt }]);
             });
         }
+        return () => {
+            if (props.socket.current) {
+                props.socket.current.off("msg-receive");
+            }
+        };
     }, []);
-    useEffect(() => {
-        arrivalMsg && setMessages(prev => [...prev, arrivalMsg]);
-    }, [arrivalMsg]);
+
     const scrollRef = useRef();
+
     useEffect(() => {
-        scrollRef.current?.scrollIntoView({behaviour: "smooth"});
+        scrollRef.current?.scrollIntoView({ behavior: "smooth" });
     }, [messages]);
+
     return (
         <>
-            {props.currChat &&
+            {props.currChat && (
                 <ChatBoxContainer className="chat-box">
                     <div className="chat-header">
                         <div className="user-details">
                             <div className="avatar">
-                                <img src={`data:image/svg+xml;base64,${props.currChat.avatarImg}`} alt="chat"/>
+                                <img src={`data:image/svg+xml;base64,${props.currChat.avatarImg}`} alt="chat" />
                             </div>
                             <div className="username">
                                 <h3>{props.currChat.usrNam}</h3>
                             </div>
                         </div>
-                        <Logout></Logout>
+                        <Logout />
                     </div>
                     <div className="chat-messages">
-                        {messages.map(msg => {
+                        {messages.map((msg) => {
                             return (
                                 <div ref={scrollRef} key={uuid()}>
                                     <div className={`message ${msg.fromSelf ? "sent" : "received"}`}>
-
                                         <div className="content">
                                             <p>{msg.msgTxt}</p>
                                         </div>
                                     </div>
                                 </div>
-                            )
+                            );
                         })}
                     </div>
-                    <ChatInput handleSendMsg={handleSendMsg}></ChatInput>
-                </ChatBoxContainer>}
+                    <ChatInput handleSendMsg={handleSendMsg} />
+                </ChatBoxContainer>
+            )}
         </>
-    )
+    );
 }

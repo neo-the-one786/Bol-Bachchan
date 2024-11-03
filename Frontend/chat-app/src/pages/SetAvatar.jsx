@@ -7,6 +7,7 @@ import {Buffer} from "buffer/";
 import loader from "../assets/loader.gif";
 import {setAvatarRoute} from "../utils/APIRoutes.js";
 import {useNavigate} from "react-router-dom";
+import {Button} from "@mui/material";
 
 export default function SetAvatar() {
     const [avatars, setAvatars] = useState([]);
@@ -45,7 +46,7 @@ export default function SetAvatar() {
         async function getAvatars() {
             const data = [];
             for (let i = 0; i < 4; i++) {
-                const img = await axios.get(`https://api.multiavatar.com/${Math.floor(Math.random() * 1000)}`);
+                const img = await axios.get(`https://api.dicebear.com/9.x/avataaars/svg?seed=${Math.floor(Math.random() * 1000)}`);
                 const buf = new Buffer(img.data);
                 data.push(buf.toString("base64"));
                 setAvatars(data);
@@ -57,7 +58,7 @@ export default function SetAvatar() {
     }, []);
     return (
         <>
-            {isLoad && <Container>
+            {isLoad && <Container className="avatar-container">
                 <img src={loader} alt="loader" className="loader"/>
             </Container>}
             <Container className="avatar-container">
@@ -73,9 +74,9 @@ export default function SetAvatar() {
                         )
                     })}
                 </div>
-                <button className="submit-btn" onClick={setPfp}>
+                <Button className="submit-btn" onClick={setPfp}>
                     Set avatar as profile picture
-                </button>
+                </Button>
             </Container>
             <ToastContainer></ToastContainer>
         </>

@@ -8,8 +8,39 @@ import "react-toastify/dist/ReactToastify.css";
 import axios from "axios";
 import {signupRoute} from "../utils/APIRoutes.js";
 import {useEffect} from "react";
+import {Button, TextField} from "@mui/material";
 
 const FormContainer = styled.div``;
+
+const CustomTextField = styled(TextField)(({ theme }) => ({
+    backgroundColor: 'transparent',
+    padding: '1rem',
+    border: '0.1rem solid indigo',
+    borderRadius: '0.4rem',
+    color: 'white',
+    width: '100%',
+    fontSize: '1rem',
+    '& .MuiOutlinedInput-root': {
+        '& fieldset': {
+            borderColor: 'indigo',
+        },
+        '&:hover fieldset': {
+            borderColor: 'darkblue',
+        },
+        '&.Mui-focused fieldset': {
+            borderColor: 'rebeccapurple',
+        },
+    },
+    '& .MuiInputBase-input': {
+        color: 'white',
+    },
+    '& .MuiInputLabel-root': {
+        color: 'dimgrey',
+        '&.Mui-focused': {
+            color: 'rebeccapurple',
+        },
+    },
+}));
 
 export default function Signup() {
     const {register, handleSubmit, watch, formState: {errors}} = useForm({mode: "onSubmit"});
@@ -76,13 +107,13 @@ export default function Signup() {
                         <img src={logo} alt="logo"/>
                         <h1>Bol Bachchan</h1>
                     </div>
-                    <input type="text" placeholder="Username" {...register("usrNam", validOpts.usrNam)}/>
-                    <input type="email" placeholder="Email" {...register("email", validOpts.email)}/>
-                    <input type="password" placeholder="Password" {...register("passwd", validOpts.passwd)}/>
-                    <input type="password" placeholder="Confirm Password" {...register("confirmPasswd", validOpts.confirmPasswd)}/>
-                    <button>
+                    <CustomTextField type="text" label="Username" {...register("usrNam", validOpts.usrNam)}/>
+                    <CustomTextField type="email" label="Email" {...register("email", validOpts.email)}/>
+                    <CustomTextField type="password" label="Password" {...register("passwd", validOpts.passwd)}/>
+                    <CustomTextField type="password" label="Confirm Password" {...register("confirmPasswd", validOpts.confirmPasswd)}/>
+                    <Button type="submit">
                         Create User
-                    </button>
+                    </Button>
                     <span>
                         Already have an account?
                         <Link to="/login">Login</Link>

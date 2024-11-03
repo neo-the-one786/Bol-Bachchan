@@ -39,7 +39,7 @@
         }
     }
 
-    button {
+    .submit-btn {
         background-color: purple;
         color: white;
         padding: 1rem 2rem;
